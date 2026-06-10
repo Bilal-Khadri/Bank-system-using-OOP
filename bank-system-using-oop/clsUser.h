@@ -3,6 +3,7 @@
 #include <string>
 #include "clsPerson.h"
 #include "clsString.h"
+#include "clsDate.h"
 #include <vector>
 #include <fstream>
 
@@ -146,6 +147,21 @@ private:
     static clsUser _GetEmptyUserObject()
     {
         return clsUser(enMode::EmptyMode, "", "", "", "", "", "", 0);
+    }
+
+    
+
+    string _PrepareLoginRecored(string separator = "#//#") {
+
+        string LoginRecored = "";
+
+         LoginRecored += clsDate::GetSystemDateTimeString() + separator;
+         LoginRecored += UserName + separator;
+         LoginRecored += Password + separator;
+         LoginRecored += to_string(Permissions);
+
+         return LoginRecored;
+         
     }
 
 public:
@@ -358,6 +374,19 @@ public:
         else
             return false;
 
+    }
+    void RegisterLogIn()
+    {
+        string DataLine = _PrepareLoginRecored();
+
+        fstream myfile;
+        myfile.open("LoginRegister.txt", std::ios::out | std::ios::app);
+
+        if (myfile.is_open())
+        {
+            myfile << DataLine << '\n';
+            myfile.close();
+        }
     }
 
 };

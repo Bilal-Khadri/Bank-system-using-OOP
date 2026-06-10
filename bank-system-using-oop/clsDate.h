@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<string>
+#include<ctime>
 #include "clsString.h"
 
 using namespace std;
@@ -1125,8 +1126,32 @@ public:
 	{
 		return CompareDates(*this, Date2);
 	}
+	
 
+	string GetCurrentTime()
+	{
+		time_t now = time(0);
+		tm localTime;
 
+		localtime_s(&localTime, &now);
 
+		char buffer[9];
+		strftime(buffer, sizeof(buffer), "%H:%M:%S", &localTime);
+
+		return string(buffer);
+	}
+
+	static string GetSystemDateTimeString()
+	{
+		time_t t = time(nullptr);
+		tm* now = localtime(&t);
+
+		return to_string(now->tm_mday) + "/" +
+			to_string(now->tm_mon + 1) + "/" +
+			to_string(now->tm_year + 1900) + " - " +
+			to_string(now->tm_hour) + ":" +
+			to_string(now->tm_min) + ":" +
+			to_string(now->tm_sec);
+	}
 };
 
