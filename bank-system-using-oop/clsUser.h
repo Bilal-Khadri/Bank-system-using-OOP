@@ -8,6 +8,7 @@
 #include <fstream>
 
 using namespace std;
+
 class clsUser : public clsPerson
 {
 private:
@@ -149,8 +150,6 @@ private:
         return clsUser(enMode::EmptyMode, "", "", "", "", "", "", 0);
     }
 
-    
-
     string _PrepareLoginRecored(string separator = "#//#") {
 
         string LoginRecored = "";
@@ -164,11 +163,28 @@ private:
          
     }
 
+    struct LoginRegisterInfo;
+    static LoginRegisterInfo _ConvertLoginRegisterLinetoRecord(string line, string del = "#//#") {
+
+        LoginRegisterInfo LoginInfo;
+
+        vector<string> Logins = clsString::Split(line, del);
+
+        LoginInfo.date = Logins[0];
+        LoginInfo.username = Logins[1];
+        LoginInfo.Password = Logins[2];
+        LoginInfo.permissions = stoi(Logins[3]);
+
+        return  LoginInfo;
+    }
+
+
 public:
 
     enum enPermissions {
         eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-        pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64
+        pUpdateClients = 8, pFindClient = 16, pTranactions = 32,
+        pManageUsers = 64, pLoginRegister = 128,
     };
 
 
@@ -387,6 +403,43 @@ public:
             myfile << DataLine << '\n';
             myfile.close();
         }
+    }
+
+    struct LoginRegisterInfo {
+        string date;
+        string username;
+        string Password;
+        int permissions;
+
+    };
+
+
+    static vector <LoginRegisterInfo> _LoadLoginsRegisterDataFromFile()
+    {
+
+        vector <LoginRegisterInfo> vLogins;
+
+        fstream MyFile;
+        MyFile.open("LoginRegister.txt", ios::in);//read Mode
+
+        if (MyFile.is_open())
+        {
+
+            string Line;
+
+            while (getline(MyFile, Line))
+            {
+
+                LoginRegisterInfo LoginData = _ConvertLoginRegisterLinetoRecord(Line);
+
+                vLogins.push_back(LoginData);
+            }
+
+            MyFile.close();
+        }
+
+        return vLogins;
+
     }
 
 };

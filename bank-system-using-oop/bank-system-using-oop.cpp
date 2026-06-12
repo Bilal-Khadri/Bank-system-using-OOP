@@ -1,5 +1,7 @@
 #include <iostream>
 #include "clsLoginScreen.h"
+#include "clsLoginRegisterScreen.h"
+
 
 
 using namespace std;
@@ -15,5 +17,6 @@ int main()
 
 	}
 	return 0;
+
 }
 
