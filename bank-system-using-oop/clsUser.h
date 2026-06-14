@@ -163,10 +163,10 @@ private:
          
     }
 
-    struct LoginRegisterInfo;
-    static LoginRegisterInfo _ConvertLoginRegisterLinetoRecord(string line, string del = "#//#") {
+    struct stLoginRegisterRecord;
+    static stLoginRegisterRecord _ConvertLoginRegisterLineToRecord(string line, string del = "#//#") {
 
-        LoginRegisterInfo LoginInfo;
+        stLoginRegisterRecord LoginInfo;
 
         vector<string> Logins = clsString::Split(line, del);
 
@@ -184,7 +184,7 @@ public:
     enum enPermissions {
         eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
         pUpdateClients = 8, pFindClient = 16, pTranactions = 32,
-        pManageUsers = 64, pLoginRegister = 128,
+        pManageUsers = 64, pShowLoginRegister = 128,
     };
 
 
@@ -405,7 +405,7 @@ public:
         }
     }
 
-    struct LoginRegisterInfo {
+    struct stLoginRegisterRecord {
         string date;
         string username;
         string Password;
@@ -414,10 +414,10 @@ public:
     };
 
 
-    static vector <LoginRegisterInfo> _LoadLoginsRegisterDataFromFile()
+    static vector <stLoginRegisterRecord> GetRecordRegisterList()
     {
 
-        vector <LoginRegisterInfo> vLogins;
+        vector <stLoginRegisterRecord> vLogins;
 
         fstream MyFile;
         MyFile.open("LoginRegister.txt", ios::in);//read Mode
@@ -430,7 +430,7 @@ public:
             while (getline(MyFile, Line))
             {
 
-                LoginRegisterInfo LoginData = _ConvertLoginRegisterLinetoRecord(Line);
+                stLoginRegisterRecord LoginData = _ConvertLoginRegisterLineToRecord(Line);
 
                 vLogins.push_back(LoginData);
             }

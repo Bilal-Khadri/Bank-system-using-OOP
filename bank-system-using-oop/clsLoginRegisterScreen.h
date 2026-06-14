@@ -15,7 +15,7 @@ class clsLoginRegisterScreen:protected clsScreen
 private:
 
    
-    static void PrintLogin(clsUser::LoginRegisterInfo LoginInfo) {
+    static void PrintLogin(clsUser::stLoginRegisterRecord LoginInfo) {
 
         cout << "\t\t\t " << setw(25) << left << LoginInfo.date;
         cout << "| " << setw(15) << left << LoginInfo.username;
@@ -27,13 +27,13 @@ public :
 
 	static void ShowLoginRegisterListScreen() {
 
-        if (!CheckAccessRights(clsUser::enPermissions::pLoginRegister)){
+        if (!CheckAccessRights(clsUser::enPermissions::pShowLoginRegister)){
             
             return;// this will exit the function and it will not continue
         }
 
 
-        vector  <clsUser::LoginRegisterInfo> Logins = clsUser::_LoadLoginsRegisterDataFromFile();
+        vector  <clsUser::stLoginRegisterRecord> Logins = clsUser::GetRecordRegisterList();
 
         string title, subtitle;
 
@@ -50,8 +50,8 @@ public :
         cout<<"| " << setw(15) << left << "Permissions" << "\n";
         cout<<"\t\t\t--------------------------------------------------------------------------\n";
 
-        for (clsUser::LoginRegisterInfo& L : Logins) {
-            PrintLogin(L);
+        for (clsUser::stLoginRegisterRecord& Record : Logins) {
+            PrintLogin(Record);
         }
         cout << "\t\t\t--------------------------------------------------------------------------\n";
 

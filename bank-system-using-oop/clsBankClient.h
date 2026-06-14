@@ -384,4 +384,14 @@ public:
         return TotalBalances;
     }
 
+    bool Transter(float amount, clsBankClient& DestinationClient) {
+
+        if (amount > _AccountBalance) return 0;
+
+        Withdraw(amount);
+        DestinationClient.Deposit(amount);
+        return 1;
+
+    }
+
 };
