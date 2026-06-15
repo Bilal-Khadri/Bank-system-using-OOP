@@ -5,6 +5,9 @@
 #include "clsString.h"
 #include <vector>
 #include <fstream>
+#include"Global.h"
+#include"clsDate.h"
+
 
 using namespace std;
 class clsBankClient : public clsPerson
@@ -145,6 +148,8 @@ private:
         return clsBankClient(enMode::EmptyMode, "", "", "", "", "", "", 0);
     }
 
+
+ 
 public:
 
 
@@ -384,14 +389,45 @@ public:
         return TotalBalances;
     }
 
+    string PrepareTransferLog(float amount, clsBankClient DestinationClient, string delim = "#//#") {
+
+        string TrnasferLogData = "";
+
+        TrnasferLogData += clsDate::GetSystemDateTimeString() + delim;
+        TrnasferLogData += AccountNumber() + delim;
+        TrnasferLogData += DestinationClient.AccountNumber() + delim;
+        TrnasferLogData += to_string(amount) + delim;
+        TrnasferLogData += to_string(AccountBalance) + delim;
+        TrnasferLogData += to_string(DestinationClient.AccountBalance) + delim;
+        TrnasferLogData += CurrentUser.UserName;
+
+        return TrnasferLogData;
+    }
+
+
+    void TransferLog(float amount, clsBankClient DestinationClient) {
+
+        string TransferLogData = PrepareTransferLog(amount, DestinationClient);
+
+        fstream Myfile;
+
+        Myfile.open("TranferLog.txt", ios::out | ios::app);
+        Myfile << TransferLogData << endl;
+        Myfile.close();
+    }
+
     bool Transter(float amount, clsBankClient& DestinationClient) {
 
         if (amount > _AccountBalance) return 0;
 
         Withdraw(amount);
         DestinationClient.Deposit(amount);
+
+        //save transfer log to file 
+        TransferLog(amount, DestinationClient);
         return 1;
 
     }
-
+    
+    
 };

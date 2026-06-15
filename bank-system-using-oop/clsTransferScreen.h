@@ -65,17 +65,24 @@ public:
 		clsBankClient Client = ReadClientAccountNumber("from");
 		clsBankClient DestinationClient = ReadClientAccountNumber("to");
 
-		cout << "\nEnter transfer ammount : ";
 		float amount = ReadAmount(Client);
 
-		if (Client.Transter(amount, DestinationClient))
+		char answer;
+		cout << "Are you sure do you want to perform this operation y/n? : ";
+		cin >> answer;
+
+		if (answer == 'y' || answer == 'Y')
+		{
+			Client.Transter(amount, DestinationClient);
 			cout << "\nTransfer done successfully \n";
+
+			_PrintClientCard(Client);
+			_PrintClientCard(DestinationClient);
+
+		}
 		else cout << "\nTransfer failed \n";
-
-		_PrintClientCard(Client);
-		_PrintClientCard(DestinationClient);
-
-
 	}
+
+
 };
 
