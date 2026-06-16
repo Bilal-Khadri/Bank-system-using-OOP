@@ -60,7 +60,7 @@ public:
 
 	static void ShowTransferScreen() {
 
-		_DrawScreenHeader("\t\tTranster screen ");
+		_DrawScreenHeader("\tTranster screen ");
 
 		clsBankClient Client = ReadClientAccountNumber("from");
 		clsBankClient DestinationClient = ReadClientAccountNumber("to");

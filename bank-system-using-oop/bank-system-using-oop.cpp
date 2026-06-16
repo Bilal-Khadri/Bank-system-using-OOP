@@ -1,6 +1,8 @@
 #include <iostream>
 #include "clsLoginScreen.h"
 #include "clsLoginRegisterScreen.h"
+#include "clsTransferLogListScreen.h"
+
 
 
 

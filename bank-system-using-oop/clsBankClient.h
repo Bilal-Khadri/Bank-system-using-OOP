@@ -12,6 +12,7 @@
 using namespace std;
 class clsBankClient : public clsPerson
 {
+
 private:
 
     enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
@@ -146,6 +147,51 @@ private:
     static clsBankClient _GetEmptyClientObject()
     {
         return clsBankClient(enMode::EmptyMode, "", "", "", "", "", "", 0);
+    }
+
+    string _PrepareTransferLogRecord(float amount, clsBankClient DestinationClient, string Separator = "#//#") {
+
+        string TrnasferLogData = "";
+
+        TrnasferLogData += clsDate::GetSystemDateTimeString() + Separator;
+        TrnasferLogData += AccountNumber() + Separator;
+        TrnasferLogData += DestinationClient.AccountNumber() + Separator;
+        TrnasferLogData += to_string(amount) + Separator;
+        TrnasferLogData += to_string(AccountBalance) + Separator;
+        TrnasferLogData += to_string(DestinationClient.AccountBalance) + Separator;
+        TrnasferLogData += CurrentUser.UserName;
+
+        return TrnasferLogData;
+    }
+
+
+    void _RegisterTransferLog(float amount, clsBankClient DestinationClient) {
+
+        string TransferLogData = _PrepareTransferLogRecord(amount, DestinationClient);
+
+        fstream Myfile;
+
+        Myfile.open("TransferLog.txt", ios::out | ios::app);
+        Myfile << TransferLogData << endl;
+        Myfile.close();
+    }
+    struct stTransferLogData;
+    static stTransferLogData _ConvertTransferLogLineToRecord(string line, string separator = "#//#") {
+
+        stTransferLogData TransferLofData;
+
+        vector<string> data = clsString::Split(line, separator);
+
+        TransferLofData.Date = data[0];
+        TransferLofData.AccountNumber = data[1];
+        TransferLofData.DestinationAccountNumber = data[2];
+        TransferLofData.Amount = stof(data[3]);
+        TransferLofData.AcountBalance = stof(data[4]);
+        TransferLofData.DestinationAccountBalance = stof(data[5]);
+        TransferLofData.UserName = data[6];
+
+        return TransferLofData;
+
     }
 
 
@@ -388,33 +434,7 @@ public:
 
         return TotalBalances;
     }
-
-    string PrepareTransferLog(float amount, clsBankClient DestinationClient, string delim = "#//#") {
-
-        string TrnasferLogData = "";
-
-        TrnasferLogData += clsDate::GetSystemDateTimeString() + delim;
-        TrnasferLogData += AccountNumber() + delim;
-        TrnasferLogData += DestinationClient.AccountNumber() + delim;
-        TrnasferLogData += to_string(amount) + delim;
-        TrnasferLogData += to_string(AccountBalance) + delim;
-        TrnasferLogData += to_string(DestinationClient.AccountBalance) + delim;
-        TrnasferLogData += CurrentUser.UserName;
-
-        return TrnasferLogData;
-    }
-
-
-    void TransferLog(float amount, clsBankClient DestinationClient) {
-
-        string TransferLogData = PrepareTransferLog(amount, DestinationClient);
-
-        fstream Myfile;
-
-        Myfile.open("TranferLog.txt", ios::out | ios::app);
-        Myfile << TransferLogData << endl;
-        Myfile.close();
-    }
+    
 
     bool Transter(float amount, clsBankClient& DestinationClient) {
 
@@ -424,10 +444,42 @@ public:
         DestinationClient.Deposit(amount);
 
         //save transfer log to file 
-        TransferLog(amount, DestinationClient);
+        _RegisterTransferLog(amount, DestinationClient);
         return 1;
 
     }
-    
+
+    struct stTransferLogData {
+
+        string Date;
+        string AccountNumber;
+        string DestinationAccountNumber;
+        float Amount;
+        float AcountBalance;
+        float DestinationAccountBalance;
+        string UserName;
+    };
+
+
+    static vector< stTransferLogData> GetTransferLogList() {
+
+        vector< stTransferLogData> TransferLogList;
+
+        fstream Myfile;
+        string DataLine;
+
+        Myfile.open("TransferLog.txt", ios::in); //read mode 
+
+        while (getline(Myfile, DataLine)) {
+
+            stTransferLogData TransferLogData = _ConvertTransferLogLineToRecord(DataLine);
+
+            TransferLogList.push_back(TransferLogData);
+
+        }
+        Myfile.close();
+
+        return TransferLogList;
+    }
     
 };
