@@ -436,7 +436,7 @@ public:
     }
     
 
-    bool Transter(float amount, clsBankClient& DestinationClient) {
+    bool Transfer(float amount, clsBankClient& DestinationClient) {
 
         if (amount > _AccountBalance) return 0;
 

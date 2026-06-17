@@ -73,7 +73,7 @@ public:
 
 		if (answer == 'y' || answer == 'Y')
 		{
-			Client.Transter(amount, DestinationClient);
+			Client.Transfer(amount, DestinationClient);
 			cout << "\nTransfer done successfully \n";
 
 			_PrintClientCard(Client);

@@ -6,6 +6,8 @@
 #include "clsDate.h"
 #include <vector>
 #include <fstream>
+#include "clsUtil.h"
+
 
 using namespace std;
 
@@ -27,7 +29,7 @@ private:
         vUserData = clsString::Split(Line, Seperator);
 
         return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2],
-            vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6]));
+            vUserData[3], vUserData[4], _DecrypPassword(vUserData[5]), stoi(vUserData[6]));
 
     }
 
@@ -39,7 +41,7 @@ private:
         UserRecord += User.Email + Seperator;
         UserRecord += User.Phone + Seperator;
         UserRecord += User.UserName + Seperator;
-        UserRecord += User.Password + Seperator;
+        UserRecord += _EncryptPassword(User.Password) + Seperator;
         UserRecord += to_string(User.Permissions);
 
         return UserRecord;
@@ -156,7 +158,7 @@ private:
 
          LoginRecored += clsDate::GetSystemDateTimeString() + separator;
          LoginRecored += UserName + separator;
-         LoginRecored += Password + separator;
+         LoginRecored += clsUtil::EncrypText(Password) + separator;
          LoginRecored += to_string(Permissions);
 
          return LoginRecored;
@@ -176,6 +178,16 @@ private:
         LoginInfo.permissions = stoi(Logins[3]);
 
         return  LoginInfo;
+    }
+    
+    static string _EncryptPassword(string password) {
+
+        return password = clsUtil::EncrypText(password);
+    }
+
+    static string _DecrypPassword(string password) {
+
+        return password = clsUtil::DecrypText(password);
     }
 
 

@@ -274,5 +274,25 @@ public:
         
     }
 
+    static string EncrypText(string text, short encryptionKey = 7) {
+
+        for (int i = 0; i <= text.length(); i++) {
+
+            text[i] = char((int)text[i] + encryptionKey);
+
+        }return text;
+
+    }
+
+    static string DecrypText(string text, short encryptionKey = 7) {
+
+        for (int i = 0; i <= text.length(); i++) {
+
+            text[i] = char((int)text[i] - encryptionKey);
+
+        }return text;
+
+    }
+
 };
 

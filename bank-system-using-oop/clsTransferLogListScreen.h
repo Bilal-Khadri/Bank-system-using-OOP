@@ -27,6 +27,7 @@ private:
 		cout << "|" << setw(10) << Data.DestinationAccountBalance;
 		cout << "|" << setw(10) << Data.UserName;
 		cout << '\n';
+
 	}
 public:
 
