@@ -27,10 +27,9 @@ private:
 		cout << "|" << setw(10) << Data.DestinationAccountBalance;
 		cout << "|" << setw(10) << Data.UserName;
 		cout << '\n';
-
 	}
-public:
 
+public :
 	static void ShowtransferLogListScreen() {
 
 		vector< clsBankClient::stTransferLogData> vTransferLogList = clsBankClient::GetTransferLogList();
