@@ -45,13 +45,17 @@ public:
 
 		short option;
 		cout << "Find By : \n\n[1] Code \n[2] Country \n_";
+		option = clsInputValidate::ReadIntNumberBetween(1, 2);
+		//cin >> option;
 
-		cin >> option;
-		while (option > 2 || option < 1) {
+		/*if (option > 2 || option < 1)
+		{
+			do {
+				cout << "\nInvalid choice Enter again : ";
+				cin >> option;
+			} while (option > 2 || option < 1);
+		}*/
 
-			cout << "\nInvalid choice Enter again : ";
-			cin >> option;
-		}
 		switch (option) {
 
 		case 1:
