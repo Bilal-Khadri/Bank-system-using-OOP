@@ -102,6 +102,7 @@ public:
 	static double ReadFloatNumber(string ErrorMessage = "Invalid Number, Enter again\n")
 	{
 		float Number;
+
 		while (!(cin >> Number)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');

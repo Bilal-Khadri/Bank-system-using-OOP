@@ -14,6 +14,14 @@ class clsUpdateCurrencyScreen:clsScreen
 
 private :
 
+	static float _ReadNewRate() {
+
+		cout << "\nEnter New Rate : ";
+		float NewRate = clsInputValidate::ReadFloatNumber();
+
+		return NewRate;
+	}
+
 	static void _PrintCurrencyCard(clsCurrency Currency) {
 
 		cout << "\nCurrency Card : \n";
@@ -24,19 +32,8 @@ private :
 		cout << "Rate ($)   : " << Currency.Rate() << endl;
 		cout << "-----------------------------\n";
 
+		
 	}
-
-	static void _ShowResult(clsCurrency Currency) {
-
-		if (!Currency.IsEmpty()) {
-
-			cout << "\nCurrency Found :)\n";
-			_PrintCurrencyCard(Currency);
-		}
-
-		else  cout << "\nCurrency was not found \n";
-	}
-
 
 public :
 
@@ -47,8 +44,15 @@ public :
 		cout << "\nEnter Currency Code : ";
 		string Code = clsInputValidate::ReadString();
 
+		while (!clsCurrency::IsCurrencyExist(Code)) {
+
+			cout << "\nCurrency was not found ! Choose another one : ";
+			Code = clsInputValidate::ReadString();
+		}
+
 		clsCurrency Currency = clsCurrency::FindByCode(Code);
-		_ShowResult(Currency);
+		_PrintCurrencyCard(Currency);
+
 
 		char answer;
 		cout << "\nAre you sure do you want to update the rate of this currency y/n? :";
@@ -56,9 +60,9 @@ public :
 		
 		if (answer == 'y' || answer == 'Y')
 		{
-			cout << "\nEnter New Rate : ";
-			float NewRate = clsInputValidate::ReadFloatNumber();
-			Currency.UpdateRate(NewRate);
+			cout << "\nUpdate Currency Rate:";
+			cout << "\n--------------------------\n";
+			Currency.UpdateRate(_ReadNewRate());
 
 			cout << "Currency Rate updated successfuly :)\n";
 			_PrintCurrencyCard(Currency);
