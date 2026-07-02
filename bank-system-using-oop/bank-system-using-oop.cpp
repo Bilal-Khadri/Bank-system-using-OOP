@@ -13,19 +13,13 @@ int main()
 {
 
 
-
-	
-	clsCurrencyExchangeMenueScreen::ShowCurrencyExchangeScreen();
-
-
-
-	/*while (1) {
+	while (1) {
 
 		if (!clsLoginScreen::ShowLoginScreen())
 			break;
 
 	}
-	return 0;*/
+	return 0;
 
 }
 

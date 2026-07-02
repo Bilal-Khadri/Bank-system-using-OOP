@@ -12,6 +12,8 @@
 #include "clsLoginScreen.h"
 #include "Global.h"
 #include "clsLoginRegisterScreen.h"
+#include "clsCurrencyExchangeMenueScreen.h"
+
 
 
 using namespace std;
@@ -109,6 +111,8 @@ private:
     static void _ShowCurrencyExchangeMenue()
     {
         // cout << "\nCurrency Exange will be here ...\n";
+        clsCurrencyExchangeMenueScreen::ShowCurrencyExchangeScreen();
+
     }
 
     static void _Logout()

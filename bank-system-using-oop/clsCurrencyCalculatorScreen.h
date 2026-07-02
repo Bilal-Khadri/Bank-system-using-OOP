@@ -74,7 +74,7 @@ public:
 		float Amount = _ReadAmount();
 		
 		_PrintCurrencyCard(CurrencyFrom, "Convert From");
-		_PrintCurrencyCard(CurrencyTo, "Convert To");
+		_PrintCurrencyCard(CurrencyTo, "To");
 
 		_PrintCalculationResult(Amount, CurrencyFrom, CurrencyTo);
 
